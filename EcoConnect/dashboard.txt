@@ -1,0 +1,261 @@
+import React, { useState } from 'react';
+import { View, Text, Button, FlatList, TouchableOpacity, StyleSheet, Picker } from 'react-native';
+import { useRouter } from "expo-router";
+
+export default function Dashboard() {
+  const [selectedFilter, setSelectedFilter] = useState('Air Quality');
+  const [selectedTimeRange, setSelectedTimeRange] = useState('Past Hour');
+  const [selectedLocation, setSelectedLocation] = useState('Colombo');
+
+  const filters = ['Air Quality', 'Temperature', 'CO2 Levels', 'Humidity', 'Water Quality'];
+  const timeRanges = ['Past Hour', '24 Hours', '7 Days'];
+  const locations = ['Colombo', 'Kandy', 'Galle', 'Jaffna'];
+
+  const router = useRouter();
+
+  const handleFilterSelect = (filter) => {
+    setSelectedFilter(filter);
+  };
+
+  const handleTimeRangeChange = (itemValue) => {
+    setSelectedTimeRange(itemValue);
+  };
+
+  const handleLocationChange = (itemValue) => {
+    setSelectedLocation(itemValue);
+  };
+
+  return (
+    <View style={styles.container}>
+      {/* Sidebar/Drawer */}
+      <View style={styles.sidebar}>
+        <Text style={styles.sidebarTitle}>Data Filters</Text>
+        <FlatList
+          data={filters}
+          renderItem={({ item }) => (
+            <TouchableOpacity onPress={() => handleFilterSelect(item)}>
+              <Text style={[styles.filterItem, selectedFilter === item && styles.selectedFilter]}>{item}</Text>
+            </TouchableOpacity>
+          )}
+          keyExtractor={(item) => item}
+        />
+
+        <Text style={styles.sidebarTitle}>Time Range</Text>
+        <Picker
+          selectedValue={selectedTimeRange}
+          style={styles.picker}
+          onValueChange={handleTimeRangeChange}
+        >
+          {timeRanges.map((range) => (
+            <Picker.Item key={range} label={range} value={range} />
+          ))}
+        </Picker>
+
+        <Text style={styles.sidebarTitle}>Location</Text>
+        <Picker
+          selectedValue={selectedLocation}
+          style={styles.picker}
+          onValueChange={handleLocationChange}
+        >
+          {locations.map((location) => (
+            <Picker.Item key={location} label={location} value={location} />
+          ))}
+        </Picker>
+      </View>
+
+      {/* Main Content */}
+      <View style={styles.mainContent}>
+        <Text style={styles.mainTitle}>Dashboard</Text>
+        <Text style={styles.graphTitle}>{selectedFilter} Over Time</Text>
+        <Text>Graph for {selectedFilter} will display here.</Text>
+
+        <Text style={styles.graphTitle}>{selectedFilter} Comparison</Text>
+        <Text>Graph comparing {selectedFilter} will display here.</Text>
+
+        {/* Share & Export Button */}
+        <Button title="Share and Export" onPress={() => router.push('/share')} />
+      </View>
+    </View>
+  );
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    flexDirection: 'row',
+  },
+  sidebar: {
+    width: 200,
+    backgroundColor: '#333',
+    padding: 10,
+    color: 'white',
+  },
+  sidebarTitle: {
+    color: 'white',
+    fontSize: 16,
+    marginBottom: 10,
+  },
+  filterItem: {
+    color: '#bbb',
+    paddingVertical: 10,
+    borderBottomColor: '#444',
+    borderBottomWidth: 1,
+  },
+  selectedFilter: {
+    color: 'white',
+    fontWeight: 'bold',
+  },
+  picker: {
+    height: 50,
+    color: 'white',
+  },
+  mainContent: {
+    flex: 1,
+    padding: 20,
+  },
+  mainTitle: {
+    fontSize: 24,
+    marginBottom: 20,
+  },
+  graphTitle: {
+    fontSize: 18,
+    marginTop: 20,
+  },
+});
+
+
+
+import React, { useState } from 'react';
+import { View, Text, Button, FlatList, TouchableOpacity, StyleSheet, Picker, ScrollView } from 'react-native';
+import { useRouter } from "expo-router";
+
+export default function Dashboard() {
+  const [selectedFilter, setSelectedFilter] = useState('Air Quality');
+  const [selectedTimeRange, setSelectedTimeRange] = useState('Past Hour');
+  const [selectedLocation, setSelectedLocation] = useState('Colombo');
+
+  const filters = ['Air Quality', 'Temperature', 'CO2 Levels', 'Humidity', 'Water Quality'];
+  const timeRanges = ['Past Hour', '24 Hours', '7 Days'];
+  const locations = ['Colombo', 'Kandy', 'Galle', 'Jaffna'];
+
+  const router = useRouter();
+
+  const handleFilterSelect = (filter) => {
+    setSelectedFilter(filter);
+  };
+
+  const handleTimeRangeChange = (itemValue) => {
+    setSelectedTimeRange(itemValue);
+  };
+
+  const handleLocationChange = (itemValue) => {
+    setSelectedLocation(itemValue);
+  };
+
+  return (
+    <ScrollView horizontal={true} style={styles.horizontalScroll}>
+      <View style={styles.container}>
+        {/* Sidebar/Drawer */}
+        <View style={styles.sidebar}>
+          <Text style={styles.sidebarTitle}>Data Filters</Text>
+          <FlatList
+            data={filters}
+            renderItem={({ item }) => (
+              <TouchableOpacity onPress={() => handleFilterSelect(item)}>
+                <Text style={[styles.filterItem, selectedFilter === item && styles.selectedFilter]}>{item}</Text>
+              </TouchableOpacity>
+            )}
+            keyExtractor={(item) => item}
+          />
+
+          <Text style={styles.sidebarTitle}>Time Range</Text>
+          <Picker
+            selectedValue={selectedTimeRange}
+            style={styles.picker}
+            onValueChange={handleTimeRangeChange}
+          >
+            {timeRanges.map((range) => (
+              <Picker.Item key={range} label={range} value={range} />
+            ))}
+          </Picker>
+
+          <Text style={styles.sidebarTitle}>Location</Text>
+          <Picker
+            selectedValue={selectedLocation}
+            style={styles.picker}
+            onValueChange={handleLocationChange}
+          >
+            {locations.map((location) => (
+              <Picker.Item key={location} label={location} value={location} />
+            ))}
+          </Picker>
+        </View>
+
+        {/* Main Content */}
+        <View style={styles.mainContent}>
+          <Text style={styles.mainTitle}>Dashboard</Text>
+          <Text style={styles.graphTitle}>{selectedFilter} Over Time</Text>
+          <Text>Graph for {selectedFilter} will display here.</Text>
+
+          <Text style={styles.graphTitle}>{selectedFilter} Comparison</Text>
+          <Text>Graph comparing {selectedFilter} will display here.</Text>
+
+          {/* Share & Export Button */}
+          <Button title="Share and Export" onPress={() => router.push('/share')} />
+        </View>
+      </View>
+    </ScrollView>
+  );
+}
+
+const styles = StyleSheet.create({
+  horizontalScroll: {
+    flex: 1,
+  },
+  container: {
+    flexDirection: 'row',
+    flex: 1,
+  },
+  sidebar: {
+    width: 200,
+    backgroundColor: '#333',
+    padding: 10,
+    color: 'white',
+  },
+  sidebarTitle: {
+    color: 'white',
+    fontSize: 16,
+    marginBottom: 10,
+  },
+  filterItem: {
+    color: '#bbb',
+    paddingVertical: 10,
+    borderBottomColor: '#444',
+    borderBottomWidth: 1,
+  },
+  selectedFilter: {
+    color: 'white',
+    fontWeight: 'bold',
+  },
+  picker: {
+    height: 50,
+    color: 'white',
+  },
+  mainContent: {
+    width: 400, // adjust this to fit your content
+    padding: 20,
+  },
+  mainTitle: {
+    fontSize: 24,
+    marginBottom: 20,
+  },
+  graphTitle: {
+    fontSize: 18,
+    marginTop: 20,
+  },
+});
+
+
+
+
+
